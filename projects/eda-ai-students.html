@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Impact on Students - EDA - Sergio Boccassini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body class="lang-it">
+
+<nav class="topnav">
+  <div class="wrap">
+    <span class="brand">SB</span>
+    <div class="navlinks">
+      <a href="../index.html#projects"><span class="it">Progetti</span><span class="en">Projects</span></a>
+      <a href="../index.html#certifications"><span class="it">Certificazioni</span><span class="en">Certifications</span></a>
+      <div class="lang-toggle" role="group" aria-label="Language / Lingua">
+        <button type="button" data-lang="it" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="en" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <p class="breadcrumb"><a href="../index.html">SB</a> / <span class="it">progetti</span><span class="en">projects</span> / eda-ai-students</p>
+
+  <article class="project">
+    <header>
+      <h1>AI Impact on Students - EDA</h1>
+      <div class="meta-row">
+        <span>2026</span><span>·</span>
+        <span class="it">stabile</span><span class="en">stable</span>
+      </div>
+      <p class="subhead">
+        <span class="it">Analisi esplorativa su un dataset Kaggle di 50.000 righe sull'uso dell'AI da parte degli studenti.</span>
+        <span class="en">Exploratory data analysis on a 50,000-row Kaggle dataset about student AI usage.</span>
+      </p>
+      <div class="tags">
+        <span class="tag">python</span>
+        <span class="tag">pandas</span>
+        <span class="tag">eda</span>
+      </div>
+    </header>
+
+    <div class="project-body">
+      <h2><span class="it">Il dataset</span><span class="en">The dataset</span></h2>
+      <p>
+        <span class="it">Il dataset "AI Impact on Students" da Kaggle contiene 50.000 righe con dati su abitudini di studio e utilizzo di strumenti di intelligenza artificiale. L'obiettivo dell'analisi era capire se e come l'uso dell'AI si collega al rendimento accademico.</span>
+        <span class="en">The "AI Impact on Students" dataset from Kaggle contains 50,000 rows of data on study habits and AI tool usage. The goal of the analysis was to understand whether and how AI usage relates to academic performance.</span>
+      </p>
+
+      <h2><span class="it">Approccio</span><span class="en">Approach</span></h2>
+      <ul>
+        <li>
+          <span class="it">Feature engineering: creazione di <code>GPA_Delta</code> e di <code>AI_Usage_Level</code> tramite <code>pd.qcut</code> per trasformare l'uso dell'AI in fasce comparabili</span>
+          <span class="en">Feature engineering: creating <code>GPA_Delta</code> and <code>AI_Usage_Level</code> via <code>pd.qcut</code> to turn AI usage into comparable bands</span>
+        </li>
+        <li>
+          <span class="it">Quattro analisi raggruppate per incrociare l'uso dell'AI con diverse dimensioni del rendimento</span>
+          <span class="en">Four grouped analyses cross-referencing AI usage with different performance dimensions</span>
+        </li>
+        <li>
+          <span class="it">Quattro visualizzazioni a supporto dei risultati</span>
+          <span class="en">Four visualizations supporting the findings</span>
+        </li>
+      </ul>
+
+      <h2><span class="it">Risultato</span><span class="en">Finding</span></h2>
+      <p>
+        <span class="it">L'insight centrale dell'analisi: l'AI lavora con te, non per te, cioè i benefici emergono quando l'AI accompagna lo studio invece di sostituirlo.</span>
+        <span class="en">The central insight of the analysis: AI works with you, not for you, meaning the benefits emerge when AI supports studying rather than replacing it.</span>
+      </p>
+    </div>
+
+    <div class="project-footer">
+      <a href="../index.html#projects">← <span class="it">torna ai progetti</span><span class="en">back to projects</span></a>
+      <a href="https://github.com/boccassinisergio-afk" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </article>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>

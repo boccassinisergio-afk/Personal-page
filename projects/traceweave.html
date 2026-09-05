@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traceweave - Sergio Boccassini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body class="lang-it">
+
+<nav class="topnav">
+  <div class="wrap">
+    <span class="brand">SB</span>
+    <div class="navlinks">
+      <a href="../index.html#projects"><span class="it">Progetti</span><span class="en">Projects</span></a>
+      <a href="../index.html#certifications"><span class="it">Certificazioni</span><span class="en">Certifications</span></a>
+      <div class="lang-toggle" role="group" aria-label="Language / Lingua">
+        <button type="button" data-lang="it" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="en" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <p class="breadcrumb"><a href="../index.html">SB</a> / <span class="it">progetti</span><span class="en">projects</span> / traceweave</p>
+
+  <article class="project">
+    <header>
+      <h1>Traceweave</h1>
+      <div class="meta-row">
+        <span>2026</span><span>·</span>
+        <span class="it">stabile, in evoluzione</span><span class="en">stable, evolving</span>
+      </div>
+      <p class="subhead">
+        <span class="it">Un analizzatore di log HTTP in Python, costruito da zero per trasformare file di log grezzi in report leggibili.</span>
+        <span class="en">A Python HTTP log analyzer, built from scratch to turn raw log files into readable reports.</span>
+      </p>
+      <div class="tags">
+        <span class="tag">python</span>
+        <span class="tag">pandas</span>
+        <span class="tag">matplotlib</span>
+        <span class="tag">argparse</span>
+        <span class="tag">oop</span>
+      </div>
+    </header>
+
+    <div class="project-body">
+      <h2><span class="it">Il problema</span><span class="en">The problem</span></h2>
+      <p>
+        <span class="it">I log di accesso HTTP in Common Log Format contengono informazioni preziose (chi visita cosa, quando, con quale esito) ma sono scomodi da leggere riga per riga. Traceweave prende un file di log qualsiasi in questo formato e lo trasforma in un report strutturato, senza richiedere alcuna configurazione oltre al percorso del file.</span>
+        <span class="en">HTTP access logs in Common Log Format hold valuable information (who visits what, when, with what outcome) but are awkward to read line by line. Traceweave takes any log file in this format and turns it into a structured report, with no configuration required beyond the file path.</span>
+      </p>
+
+      <h2><span class="it">Come funziona</span><span class="en">How it works</span></h2>
+      <p>
+        <span class="it">Il progetto è organizzato come una pipeline in cinque fasi:</span>
+        <span class="en">The project is organized as a five-stage pipeline:</span>
+      </p>
+      <ul>
+        <li><code>FileReader</code> <span class="it">legge il file grezzo riga per riga</span><span class="en">reads the raw file line by line</span></li>
+        <li><code>LogParser</code> <span class="it">trasforma ogni riga in un oggetto</span><span class="en">turns each line into an</span> <code>HTTPRequest</code>, <span class="it">aggregati in un</span><span class="en">aggregated into a</span> <code>ParsedLog</code></li>
+        <li><code>DataFrameBuilder</code> <span class="it">converte i dati aggregati in un DataFrame pandas</span><span class="en">converts the aggregated data into a pandas DataFrame</span></li>
+        <li><code>Analyzer</code> <span class="it">calcola cinque riepiloghi: status, metodo, host, risorsa, distribuzione oraria</span><span class="en">computes five summaries: status, method, host, resource, hourly distribution</span></li>
+        <li><code>ReportGenerator</code> <span class="it">produce il report testuale e un grafico a barre del traffico orario con matplotlib</span><span class="en">produces the text report and an hourly traffic bar chart with matplotlib</span></li>
+      </ul>
+      <p>
+        <span class="it">L'interfaccia a riga di comando è gestita con <code>argparse</code>: il file da analizzare è obbligatorio, mentre l'export del report e la generazione del grafico sono opzionali con valori predefiniti sensati.</span>
+        <span class="en">The command-line interface is handled with <code>argparse</code>: the file to analyze is required, while exporting the report and generating the chart are optional with sensible defaults.</span>
+      </p>
+
+      <h2><span class="it">Dettagli tecnici</span><span class="en">Technical details</span></h2>
+      <ul>
+        <li><span class="it">Gestione errori esplicita: file mancante o illeggibile (<code>OSError</code>) e log letto ma senza righe valide vengono entrambi intercettati con un messaggio chiaro invece di un crash silenzioso</span><span class="en">Explicit error handling: a missing or unreadable file (<code>OSError</code>) and a log read but with no valid rows are both caught with a clear message instead of a silent crash</span></li>
+        <li><span class="it">Docstring in stile Google su tutte le classi e i metodi</span><span class="en">Google-style docstrings across all classes and methods</span></li>
+        <li><span class="it">Testato end-to-end su un campione reale di log NASA HTTP</span><span class="en">Tested end-to-end against a real NASA HTTP log sample</span></li>
+      </ul>
+
+      <h2><span class="it">Prossimo passo</span><span class="en">What's next</span></h2>
+      <p>
+        <span class="it">Il progetto è nato come singolo file (<code>Traceweave.py</code>) ed è ora in fase di refactoring verso una struttura modulare (<code>main.py</code>, <code>models.py</code>, <code>parser.py</code>, <code>dataframe_builder.py</code>, <code>analyzer.py</code>, <code>report_generator.py</code>), per avvicinarsi a come è organizzato un pacchetto Python reale.</span>
+        <span class="en">The project started as a single file (<code>Traceweave.py</code>) and is currently being refactored into a modular structure (<code>main.py</code>, <code>models.py</code>, <code>parser.py</code>, <code>dataframe_builder.py</code>, <code>analyzer.py</code>, <code>report_generator.py</code>), moving it closer to how a real Python package is organized.</span>
+      </p>
+    </div>
+
+    <div class="project-footer">
+      <a href="../index.html#projects">← <span class="it">torna ai progetti</span><span class="en">back to projects</span></a>
+      <a href="https://github.com/boccassinisergio-afk" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </article>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM - Sergio Boccassini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body class="lang-it">
+
+<nav class="topnav">
+  <div class="wrap">
+    <span class="brand">SB</span>
+    <div class="navlinks">
+      <a href="../index.html#projects"><span class="it">Progetti</span><span class="en">Projects</span></a>
+      <a href="../index.html#certifications"><span class="it">Certificazioni</span><span class="en">Certifications</span></a>
+      <div class="lang-toggle" role="group" aria-label="Language / Lingua">
+        <button type="button" data-lang="it" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="en" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <p class="breadcrumb"><a href="../index.html">SB</a> / <span class="it">progetti</span><span class="en">projects</span> / prism</p>
+
+  <article class="project">
+    <header>
+      <h1>PRISM</h1>
+      <div class="meta-row">
+        <span>2026</span><span>·</span>
+        <span class="it">stabile</span><span class="en">stable</span>
+      </div>
+      <p class="subhead">
+        <span class="it">Pandas Report &amp; Intelligent Summary Maker: una classe Python che genera automaticamente un report di analisi da un qualsiasi CSV.</span>
+        <span class="en">Pandas Report &amp; Intelligent Summary Maker: a Python class that auto-generates an analysis report from any CSV.</span>
+      </p>
+      <div class="tags">
+        <span class="tag">python</span>
+        <span class="tag">pandas</span>
+        <span class="tag">oop</span>
+      </div>
+    </header>
+
+    <div class="project-body">
+      <h2><span class="it">Il problema</span><span class="en">The problem</span></h2>
+      <p>
+        <span class="it">Ogni volta che si riceve un CSV nuovo, i primi passi (capire i tipi di colonna, individuare valori mancanti, calcolare statistiche di base) si ripetono quasi sempre uguali. PRISM automatizza questa prima esplorazione: basta passargli un file e restituisce un report strutturato.</span>
+        <span class="en">Every time you receive a new CSV, the first steps (understanding column types, spotting missing values, computing basic statistics) tend to repeat almost identically. PRISM automates this first exploration: just pass it a file and it returns a structured report.</span>
+      </p>
+
+      <h2><span class="it">Decisioni di design</span><span class="en">Design decisions</span></h2>
+      <ul>
+        <li>
+          <span class="it">Distinzione tra tipo logico e tipo pandas: una colonna numerica con pochi valori distinti (in base a un rapporto di cardinalità) viene trattata come categorica anche se pandas la vede come <code>int64</code></span>
+          <span class="en">Logical vs. pandas dtype distinction: a numeric column with few distinct values (based on a cardinality ratio) is treated as categorical even if pandas sees it as <code>int64</code></span>
+        </li>
+        <li>
+          <span class="it">Valutazione lazy con memoizzazione tramite sentinel <code>None</code>, per calcolare ogni riepilogo una sola volta anche se richiesto più volte</span>
+          <span class="en">Lazy evaluation with <code>None</code>-sentinel memoization, so each summary is computed only once even if requested multiple times</span>
+        </li>
+        <li>
+          <span class="it">Costruttore alternativo <code>@classmethod from_csv()</code> per creare l'oggetto direttamente da un percorso file</span>
+          <span class="en">Alternative <code>@classmethod from_csv()</code> constructor to build the object directly from a file path</span>
+        </li>
+        <li>
+          <span class="it">Metodi privati con prefisso underscore e costanti configurabili a livello di classe</span>
+          <span class="en">Private methods prefixed with an underscore and configurable class-level constants</span>
+        </li>
+        <li>
+          <span class="it">Principio "fail-loud": errori nei dati vengono segnalati esplicitamente invece di essere nascosti</span>
+          <span class="en">"Fail-loud" principle: data errors are surfaced explicitly instead of being hidden</span>
+        </li>
+        <li>
+          <span class="it">Pipeline di classificazione delle colonne basata su cinque tipi con priorità ordinata</span>
+          <span class="en">Column classification pipeline based on five priority-ordered types</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="project-footer">
+      <a href="../index.html#projects">← <span class="it">torna ai progetti</span><span class="en">back to projects</span></a>
+      <a href="https://github.com/boccassinisergio-afk" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </article>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>

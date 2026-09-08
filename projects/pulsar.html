@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulsar - Sergio Boccassini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body class="lang-it">
+
+<nav class="topnav">
+  <div class="wrap">
+    <span class="brand">SB</span>
+    <div class="navlinks">
+      <a href="../index.html#projects"><span class="it">Progetti</span><span class="en">Projects</span></a>
+      <a href="../index.html#certifications"><span class="it">Certificazioni</span><span class="en">Certifications</span></a>
+      <div class="lang-toggle" role="group" aria-label="Language / Lingua">
+        <button type="button" data-lang="it" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="en" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <p class="breadcrumb"><a href="../index.html">SB</a> / <span class="it">progetti</span><span class="en">projects</span> / pulsar</p>
+
+  <article class="project">
+    <header>
+      <h1>Pulsar</h1>
+      <div class="meta-row">
+        <span>2025</span><span>·</span>
+        <span class="it">stabile</span><span class="en">stable</span>
+      </div>
+      <p class="subhead">
+        <span class="it">Un tool CLI che estrae dati strutturati da descrizioni in testo libero dei tuoi progetti e contenuti pubblicati, senza input manuale campo per campo. Incolli una frase, ottieni un record strutturato.</span>
+        <span class="en">A CLI tool that extracts structured data from free-text descriptions of your projects and published content, no manual field-by-field input. Paste a sentence, get a structured record.</span>
+      </p>
+      <div class="tags">
+        <span class="tag">python</span>
+        <span class="tag">regex</span>
+        <span class="tag">json</span>
+        <span class="tag">csv</span>
+        <span class="tag">oop</span>
+      </div>
+    </header>
+
+    <div class="project-body">
+      <h2><span class="it">Il problema</span><span class="en">The problem</span></h2>
+      <p>
+        <span class="it">Tenere traccia di ogni progetto costruito e contenuto pubblicato richiede normalmente di compilare campi uno per uno: nome, tecnologie, stato, link. Pulsar elimina quel passaggio: incolli la frase con cui descriveresti naturalmente il progetto, e il tool estrae da solo i campi strutturati.</span>
+        <span class="en">Keeping track of every project built and piece of content published usually means filling in fields one by one: name, technologies, status, link. Pulsar removes that step: paste the sentence you'd naturally use to describe the project, and the tool extracts the structured fields on its own.</span>
+      </p>
+
+      <h2><span class="it">Come funziona</span><span class="en">How it works</span></h2>
+      <p>
+        <span class="it">All'avvio, Pulsar carica le categorie di skill da file JSON nella cartella <code>data/</code> e compila i pattern a runtime. Quando incolli del testo libero, la regex estrae i campi e le categorie di skill riconosciute; ogni record diventa un oggetto tipizzato (<code>Software</code> o <code>Contenuto</code>), salvato in <code>data.json</code> ed esportabile in CSV in qualsiasi momento.</span>
+        <span class="en">At startup, Pulsar loads skill categories from JSON files in the <code>data/</code> folder and compiles the patterns at runtime. When you paste free text, regex extracts the fields and recognized skill categories; each record becomes a typed object (<code>Software</code> or <code>Contenuto</code>), saved to <code>data.json</code> and exportable to CSV anytime.</span>
+      </p>
+      <p>
+        <span class="it">Esempio di input: <code>"ho creato un tool chiamato Pulsar usando python e json, è completato, link https://github.com/..."</code> diventa automaticamente un record con nome, tecnologie, stato e link già separati nei rispettivi campi.</span>
+        <span class="en">Example input: <code>"ho creato un tool chiamato Pulsar usando python e json, è completato, link https://github.com/..."</code> automatically becomes a record with name, technologies, status, and link already split into their own fields.</span>
+      </p>
+
+      <h2><span class="it">Architettura</span><span class="en">Architecture</span></h2>
+      <p>
+        <span class="it">Ogni voce è un oggetto tipizzato, non un dizionario slegato. Una classe base <code>Entry</code> contiene i campi comuni (<code>data</code>, <code>link</code>); le sottoclassi <code>Software</code> e <code>Contenuto</code> aggiungono i propri campi e riusano il genitore tramite <code>super()</code>. <code>to_dict()</code> converte un oggetto in dizionario per JSON/CSV, <code>from_dict()</code> (un classmethod) lo ricostruisce. Il salvataggio e il report chiamano <code>to_dict()</code> senza conoscere il tipo concreto: è polimorfismo, la stessa riga di codice funziona per entrambi i tipi di voce.</span>
+        <span class="en">Each entry is a typed object, not a loose dictionary. A base <code>Entry</code> class holds the common fields (<code>data</code>, <code>link</code>); the <code>Software</code> and <code>Contenuto</code> subclasses add their own fields and reuse the parent through <code>super()</code>. <code>to_dict()</code> converts an object to a dictionary for JSON/CSV, <code>from_dict()</code> (a classmethod) rebuilds it. Saving and reporting call <code>to_dict()</code> without knowing the concrete type: that's polymorphism, the same line of code works for both entry types.</span>
+      </p>
+
+      <h2><span class="it">Dettagli tecnici</span><span class="en">Technical details</span></h2>
+      <ul>
+        <li><span class="it">Estrazione skill completamente data-driven: nessuna lista hardcoded, basta aggiungere un file JSON in <code>data/</code> per una nuova categoria di skill</span><span class="en">Fully data-driven skill extraction: no hardcoded lists, just add a JSON file to <code>data/</code> for a new skill category</span></li>
+        <li><span class="it">Esportazione doppia in CSV: <code>projects.csv</code> con tutte le voci, <code>skills.csv</code> con le tecnologie aggregate per conteggio</span><span class="en">Dual CSV export: <code>projects.csv</code> with all entries, <code>skills.csv</code> with technologies aggregated by count</span></li>
+        <li><span class="it">Solo libreria standard: <code>re</code>, <code>os</code>, <code>json</code>, <code>csv</code>, nessuna installazione richiesta</span><span class="en">Standard library only: <code>re</code>, <code>os</code>, <code>json</code>, <code>csv</code>, no installs needed</span></li>
+        <li><span class="it">Gestione errori per file mancanti o corrotti</span><span class="en">Error handling for missing or corrupted files</span></li>
+      </ul>
+
+      <h2><span class="it">Parte di un sistema a due strumenti</span><span class="en">Part of a two-tool system</span></h2>
+      <p>
+        <span class="it">Pulsar è la metà "verso l'esterno" di un piccolo sistema di conoscenza personale: traccia software costruito e contenuti pubblicati, mentre <a href="synapse.html">Synapse</a> mappa concetti e progressi di apprendimento verso l'interno. Costruito come progetto pratico durante il completamento di CS50P di Harvard.</span>
+        <span class="en">Pulsar is the "outward-facing" half of a small personal knowledge system: it tracks software built and content published, while <a href="synapse.html">Synapse</a> maps concepts and learning progress internally. Built as a practical project while completing Harvard's CS50P.</span>
+      </p>
+    </div>
+
+    <div class="project-footer">
+      <a href="../index.html#projects">← <span class="it">torna ai progetti</span><span class="en">back to projects</span></a>
+      <a href="https://github.com/boccassinisergio-afk" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </article>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synapse - Sergio Boccassini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body class="lang-it">
+
+<nav class="topnav">
+  <div class="wrap">
+    <span class="brand">SB</span>
+    <div class="navlinks">
+      <a href="../index.html#projects"><span class="it">Progetti</span><span class="en">Projects</span></a>
+      <a href="../index.html#certifications"><span class="it">Certificazioni</span><span class="en">Certifications</span></a>
+      <div class="lang-toggle" role="group" aria-label="Language / Lingua">
+        <button type="button" data-lang="it" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="en" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <p class="breadcrumb"><a href="../index.html">SB</a> / <span class="it">progetti</span><span class="en">projects</span> / synapse</p>
+
+  <article class="project">
+    <header>
+      <h1>Synapse</h1>
+      <div class="meta-row">
+        <span>2025</span><span>·</span>
+        <span class="it">stabile</span><span class="en">stable</span>
+      </div>
+      <p class="subhead">
+        <span class="it">Un tool da riga di comando per tracciare concetti, argomenti e progressi di apprendimento. Costruito da zero, cresce insieme allo sviluppatore che lo ha creato.</span>
+        <span class="en">A command-line tool to track concepts, topics, and learning progress. Built from zero, growing alongside the developer who made it.</span>
+      </p>
+      <div class="tags">
+        <span class="tag">python</span>
+        <span class="tag">csv</span>
+        <span class="tag">oop</span>
+        <span class="tag">cli</span>
+      </div>
+    </header>
+
+    <div class="project-body">
+      <h2><span class="it">Cos'è Synapse</span><span class="en">What Synapse is</span></h2>
+      <p>
+        <span class="it">Synapse crea connessioni tra concetti: permette di registrare cosa si sta studiando, quanto bene lo si comprende e a che punto ci si trova, tutto dal terminale, tutto salvato localmente in un file CSV. L'idea alla base è che il tool cresca insieme alle competenze di chi lo usa.</span>
+        <span class="en">Synapse creates connections between concepts: it lets you log what you're studying, how well you understand it, and where you stand, all from the terminal, all saved locally in a CSV file. The idea behind it is that the tool grows alongside the skills of whoever uses it.</span>
+      </p>
+
+      <h2><span class="it">Campi tracciati</span><span class="en">Tracked fields</span></h2>
+      <ul>
+        <li><code>id</code> - <span class="it">identificatore univoco generato automaticamente</span><span class="en">auto-generated unique identifier</span></li>
+        <li><code>categoria</code> - <span class="it">area di studio (es. python, machine learning)</span><span class="en">area of study (e.g. python, machine learning)</span></li>
+        <li><code>argomento</code> - <span class="it">argomento specifico (es. funzioni, regressione)</span><span class="en">specific topic (e.g. functions, regression)</span></li>
+        <li><code>livello</code> - <span class="it">livello di difficoltà</span><span class="en">difficulty level</span></li>
+        <li><code>stato</code> - <span class="it">stato attuale (es. completato, in corso)</span><span class="en">current status (e.g. completed, in progress)</span></li>
+        <li><code>note</code> - <span class="it">note libere (es. nome del corso, settimana)</span><span class="en">free notes (e.g. course name, week)</span></li>
+      </ul>
+
+      <h2><span class="it">Funzionalità</span><span class="en">Features</span></h2>
+      <ul>
+        <li><span class="it">Aggiunta voci con ID auto-generati, nessun input manuale richiesto</span><span class="en">Adding entries with auto-generated IDs, no manual input required</span></li>
+        <li><span class="it">Report completo di tutti i concetti tracciati</span><span class="en">Full report of all tracked concepts</span></li>
+        <li><span class="it">Ricerca per parola chiave su tutti i campi contemporaneamente</span><span class="en">Keyword search across all fields simultaneously</span></li>
+        <li><span class="it">Aggiornamento ed eliminazione voci tramite ID, con gestione errori per ID mancanti</span><span class="en">Updating and deleting entries by ID, with error handling for missing IDs</span></li>
+      </ul>
+
+      <h2><span class="it">Architettura</span><span class="en">Architecture</span></h2>
+      <p>
+        <span class="it">Ogni record è modellato come un oggetto <code>SynapseEntry</code> invece che come un dizionario grezzo. La classe è l'unica definizione autorevole della struttura di una voce: <code>@property</code> espone <code>id</code> come sola lettura (sostenuto da <code>_id</code>, sempre un <code>int</code>), <code>@classmethod from_dict()</code> è un costruttore alternativo da riga CSV, <code>to_dict()</code> serializza di nuovo per <code>csv.DictWriter</code>, <code>__str__</code> definisce la stampa. Il flusso dati è: riga CSV → dict → <code>SynapseEntry</code> → dict → riga CSV, con <code>getattr</code>/<code>setattr</code> per l'accesso dinamico ai campi nei cicli.</span>
+        <span class="en">Each record is modeled as a <code>SynapseEntry</code> object rather than a raw dictionary. The class is the single authoritative definition of an entry's structure: <code>@property</code> exposes <code>id</code> as read-only (backed by <code>_id</code>, always an <code>int</code>), <code>@classmethod from_dict()</code> is an alternative constructor from a CSV row, <code>to_dict()</code> serializes back for <code>csv.DictWriter</code>, <code>__str__</code> defines the printed form. The data flow is: CSV row → dict → <code>SynapseEntry</code> → dict → CSV row, with <code>getattr</code>/<code>setattr</code> for dynamic field access inside loops.</span>
+      </p>
+      <p>
+        <span class="it">La versione attuale (v2.1) è il risultato di un refactoring completo da un design procedurale a uno orientato agli oggetti, che ha sostituito la vecchia funzione standalone di stampa con il metodo <code>__str__</code> e portato tutte le funzioni a operare su istanze reali invece che su dizionari.</span>
+        <span class="en">The current version (v2.1) is the result of a full refactor from a procedural design to an object-oriented one, replacing the old standalone print function with the <code>__str__</code> method and moving every function to operate on real instances instead of dictionaries.</span>
+      </p>
+
+      <h2><span class="it">Parte di un sistema a due strumenti</span><span class="en">Part of a two-tool system</span></h2>
+      <p>
+        <span class="it">Synapse è la metà "verso l'interno" di un piccolo sistema di conoscenza personale: mappa concetti e progressi di apprendimento, mentre <a href="pulsar.html">Pulsar</a> traccia software costruito e contenuti pubblicati verso l'esterno. Costruito durante CS50P di Harvard, documentato nel repo pubblico <code>cs50p-python</code>.</span>
+        <span class="en">Synapse is the "inward-facing" half of a small personal knowledge system: it maps concepts and learning progress, while <a href="pulsar.html">Pulsar</a> tracks software built and content published outward. Built during Harvard's CS50P, documented in the public <code>cs50p-python</code> repo.</span>
+      </p>
+    </div>
+
+    <div class="project-footer">
+      <a href="../index.html#projects">← <span class="it">torna ai progetti</span><span class="en">back to projects</span></a>
+      <a href="https://github.com/boccassinisergio-afk" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </article>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analisi Consumi e Prezzi Energia Elettrica - Sergio Boccassini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body class="lang-it">
+
+<nav class="topnav">
+  <div class="wrap">
+    <span class="brand">SB</span>
+    <div class="navlinks">
+      <a href="../index.html#projects"><span class="it">Progetti</span><span class="en">Projects</span></a>
+      <a href="../index.html#certifications"><span class="it">Certificazioni</span><span class="en">Certifications</span></a>
+      <div class="lang-toggle" role="group" aria-label="Language / Lingua">
+        <button type="button" data-lang="it" onclick="setLang('it')" aria-pressed="true">IT</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="en" onclick="setLang('en')" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <p class="breadcrumb"><a href="../index.html">SB</a> / <span class="it">progetti</span><span class="en">projects</span> / analisi-consumi-energia</p>
+
+  <article class="project">
+    <header>
+      <h1><span class="it">Analisi Consumi e Prezzi Energia Elettrica</span><span class="en">Energy Consumption &amp; Pricing Analysis</span></h1>
+      <div class="meta-row">
+        <span>2026</span><span>·</span>
+        <span class="it">stabile</span><span class="en">stable</span>
+      </div>
+      <p class="subhead">
+        <span class="it">Un piccolo sistema che simula il lavoro di un data analyst su un caso reale: calcolare la bolletta di ogni utente incrociando i consumi con tariffe orarie diverse, individuare il picco di consumo e la fascia più costosa, e restituire un report leggibile.</span>
+        <span class="en">A small system that simulates a data analyst's typical task: calculating each user's bill by combining energy consumption with time-based pricing, finding peak usage and the most expensive pricing tier, and producing a readable report.</span>
+      </p>
+      <div class="tags">
+        <span class="tag">python</span>
+        <span class="tag">sql</span>
+        <span class="tag">bigquery</span>
+        <span class="tag">pandas</span>
+        <span class="tag">matplotlib</span>
+      </div>
+    </header>
+
+    <div class="project-body">
+      <h2><span class="it">Il problema</span><span class="en">The problem</span></h2>
+      <p>
+        <span class="it">Calcolare una bolletta elettrica richiede di incrociare i consumi orari di ogni utente con fasce tariffarie diverse (F1, F2, F3), individuarne il picco di consumo e la fascia che pesa di più sul totale. Il progetto costruisce questa pipeline da zero, dallo schema del database al report finale.</span>
+        <span class="en">Calculating an electricity bill means matching each user's hourly consumption against different pricing tiers (F1, F2, F3), and finding their peak usage and the tier that weighs most on the total. The project builds this pipeline from scratch, from the database schema to the final report.</span>
+      </p>
+
+      <h2><span class="it">Pipeline</span><span class="en">Pipeline</span></h2>
+      <ul>
+        <li><span class="it">SQL (BigQuery) crea schema e tabelle, popola dati di esempio</span><span class="en">SQL (BigQuery) creates the schema and tables, seeds sample data</span></li>
+        <li><span class="it">SQL calcola importi, picco di consumo e fascia più costosa per ogni utente</span><span class="en">SQL computes billing amounts, peak consumption and the most expensive tier per user</span></li>
+        <li><span class="it">Python esegue le query da BigQuery, elabora i risultati con pandas e produce un report testuale più un grafico riassuntivo</span><span class="en">Python runs the queries against BigQuery, processes the results with pandas, and produces a text report plus a summary chart</span></li>
+      </ul>
+
+      <h2><span class="it">Dettagli tecnici</span><span class="en">Technical details</span></h2>
+      <ul>
+        <li>
+          <span class="it">Join su intervalli orari semi-aperti: le fasce tariffarie sono definite come <code>[ora_inizio, ora_fine)</code>, con un ramo di logica dedicato per la fascia che attraversa la mezzanotte (23:00-06:00), per evitare doppi conteggi o buchi ai confini</span>
+          <span class="en">Join on half-open time intervals: pricing tiers are defined as <code>[start_hour, end_hour)</code>, with dedicated logic for the tier crossing midnight (23:00-06:00), avoiding double counting or gaps at the boundaries</span>
+        </li>
+        <li>
+          <span class="it">Window function <code>MAX(kwh_consumati) OVER (PARTITION BY id_utente)</code> per il picco di consumo, e <code>QUALIFY ROW_NUMBER() OVER (...) = 1</code> per isolare la fascia più costosa per utente, con tie-break esplicito</span>
+          <span class="en">Window function <code>MAX(kwh_consumati) OVER (PARTITION BY id_utente)</code> for peak consumption, and <code>QUALIFY ROW_NUMBER() OVER (...) = 1</code> to isolate each user's most expensive tier, with an explicit tie-break</span>
+        </li>
+        <li>
+          <span class="it">pandas oltre le basi: merge multipli con gestione di colonne omonime, <code>pivot</code> con indice composto, e la combinazione <code>cumsum</code> + <code>shift</code> per calcolare le basi delle barre impilate nel grafico, senza hardcodare somme parziali</span>
+          <span class="en">pandas beyond the basics: multiple merges with duplicate-column handling, a <code>pivot</code> on a composite index, and the <code>cumsum</code> + <code>shift</code> combination to compute stacked-bar base values without hardcoding partial sums</span>
+        </li>
+      </ul>
+
+      <h2><span class="it">Nota sul dataset</span><span class="en">A note on the dataset</span></h2>
+      <p>
+        <span class="it">Il dataset è sintetico (un solo giorno campione, 3 utenti): una scelta deliberata, perché l'obiettivo del progetto è dimostrare l'integrazione tra SQL avanzato, Python e pandas, non gestire scala reale.</span>
+        <span class="en">The dataset is synthetic (a single sample day, 3 users): a deliberate choice, since the project's goal is demonstrating the integration of advanced SQL, Python and pandas, not handling real-world scale.</span>
+      </p>
+    </div>
+
+    <div class="project-footer">
+      <a href="../index.html#projects">← <span class="it">torna ai progetti</span><span class="en">back to projects</span></a>
+      <a href="https://github.com/boccassinisergio-afk/Analisi_consumi" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </article>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>
